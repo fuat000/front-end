@@ -1,0 +1,74 @@
+.container-fluid {
+    margin-top: 20px
+}
+
+.fuat-input {
+    width: 200px;
+}
+
+.form-item {
+    margin-left: 10px;
+}
+
+#display-container {
+    margin-top: 10px;
+}
+
+.action-button {
+    margin-left: 10px;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 600px;
+    overflow: auto;
+}
+
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; text-align: center; vertical-align: middle }
+th     { background:#eee; }
+
+.tableFixHead {
+    overflow: auto;
+    height: 773px;
+}
+
+#mapid {
+    height: 773px;
+    width: 100%;
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.float-right {
+    float: right;
+}
+
+.center {
+    align-content: center;
+}
+
+.dark {
+    background-color: yellowgreen;
+}
+
+.fuat-container {
+    height: 100%;
+}
+
+.search-area {
+    display: inline;
+}
+
+.fuat-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
