@@ -21,14 +21,15 @@ loginBtn.addEventListener('click', () => {
             return response.json();
         })
         .then(response => {
-
             console.log(response);
 
-            document.cookie = `${response.name}=${response.sessionID}; expires=${response.session.cookie.expires}; path=${response.session.cookie.path}; domain=${response.domain};`
 
-            window.localStorage.setItem('user', response.session.username);
+            if (status === 200) {
+                window.localStorage.setItem('user', response.session.username);
+                window.location = `./index.html`;
+                document.cookie = `name=${response.sessionID}; expires=${response.session.cookie.expires}; path=${response.session.cookie.path}; domain=${response.domain};`
 
-            // if (status === 200) window.location = `./index.html`;
+            }
 
             if(status === 400) Object.keys(response).forEach(key => {
                 document.getElementById(`${key}-input`).classList.add('is-invalid');
