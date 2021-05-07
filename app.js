@@ -248,7 +248,6 @@ function createMessageDiv(status) {
     div.classList.add("alert-dismissible");
     div.classList.add("alert");
     div.id = "alert-message";
-    console.log(status);
     if (status === 200 || status === '200') {
         div.classList.add("alert-success")
         div.innerHTML = 'Review Created Sucessfully'
@@ -270,5 +269,4 @@ function createMessageDiv(status) {
     setTimeout(() => {
         document.getElementById('alert-message').remove();
     }, 5000)
-
 }
