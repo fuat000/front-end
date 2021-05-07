@@ -13,7 +13,7 @@ loginBtn.addEventListener('click', () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({username, password})
+        body: JSON.stringify({ username, password })
     })
         .then(response => {
             console.log(response);
@@ -31,13 +31,20 @@ loginBtn.addEventListener('click', () => {
 
             }
 
-            if(status === 400) Object.keys(response).forEach(key => {
-                document.getElementById(`${key}-input`).classList.add('is-invalid');
-            });
+            if (status === 400) {
+                Object.keys(response).forEach(key => {
+                    try {
+                        document.getElementById(`${key}-input`).classList.add('is-invalid');
+                    } catch (err) { }
+                });
+                createMessageDiv(false)
 
-            if(status === 500) createMessageDiv(false);
+            }
 
-            if(status === 200) createMessageDiv(true);
+
+            if (status === 500) createMessageDiv(false);
+
+            if (status === 200) createMessageDiv(true);
         });
 
 });
