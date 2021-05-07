@@ -39,7 +39,7 @@ createBtn.addEventListener('click', () => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'auth': ''
+            'auth': 'pass'
         },
         body: JSON.stringify(requestBody)
     })
@@ -49,7 +49,7 @@ createBtn.addEventListener('click', () => {
         })
         .then(response => {
 
-            if (status === 200) window.location = `../pages/index.html`;
+            if (status === 200) window.location = `index.html`;
 
             if (status === 400)
                 Object.keys(response).forEach(key => {
