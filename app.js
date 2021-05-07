@@ -7,6 +7,8 @@ const viewBtn = document.querySelector('#view-btn');
 let pointsOfInterests = [];
 let lastSearch;
 
+if(window.localStorage.user) document.querySelector('#loggedin').textContent = `Logged in as: ${window.localStorage.user}`
+
 initializeRegion();
 
 decideView() // Initialize view
@@ -73,7 +75,62 @@ function mapView() {
 
     for (var i = 0; i < pointsOfInterests.length; i++) {
         const pos = [pointsOfInterests[i].lat, pointsOfInterests[i].lon];
-        L.marker(pos).addTo(map);
+        var marker = L.marker(pos).addTo(map);
+        const review = document.createElement('div');
+        review.id = 'review-container';
+
+        const input = document.createElement('input');
+        input.id = 'review-input';
+        input.name = `review-${pointsOfInterests[i].ID}`
+        input.classList.add('form-control');
+        review.appendChild(input);
+
+        const button = document.createElement('button');
+        button.id = 'review-create';
+        button.textContent = 'CREATE';
+        button.classList.add('btn');
+        button.classList.add('action-button');
+        button.classList.add('btn-primary');
+        button.classList.add('float-right');
+        button.addEventListener('click', () => {
+
+            const revText = document.querySelector('#review-input');
+            const poiID = revText.name.split('-')[1]; 
+
+            const reqBody = {
+                review: revText.textContent,
+                poiID: poiID
+            }
+
+            console.log(reqBody);
+
+            fetch('http://localhost:3000/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth': 'pass'
+                },
+                body: JSON.stringify(reqBody)
+            })
+                .then(response => {
+                    status = response.status;
+                    return response.json();
+                })
+                .then(response => {
+
+                    if (status === 400)
+                        Object.keys(response).forEach(key => {
+                            document.getElementById(`${key}-input`).classList.add('is-invalid');
+                        });
+                    console.log(status);
+                    createMessageDiv(status);
+                });
+        });
+
+        review.appendChild(button);
+
+        marker.bindPopup(review); // add the DOM-created div to a marker
+  
     }
 
     const pos = [50.908, -1.4];
@@ -162,7 +219,10 @@ function createTable(data) {
 
         btn.addEventListener('click', () => {
             fetch(`http://localhost:3000/interests/${point.ID}`, {
-                method: 'PATCH'
+                method: 'PATCH',
+                headers: {
+                    'auth': 'pass'
+                }
             }).then(response => {
                 search(lastSearch);
             })
@@ -180,4 +240,35 @@ function initializeRegion() {
     const urlParams = new URLSearchParams(window.location.search);
     document.querySelector('#search-input').value = urlParams.get('region');
     search();
+}
+
+function createMessageDiv(status) {
+
+    let div = document.createElement('div');
+    div.classList.add("alert-dismissible");
+    div.classList.add("alert");
+    div.id = "alert-message";
+    console.log(status);
+    if (status === 200 || status === '200') {
+        div.classList.add("alert-success")
+        div.innerHTML = 'Review Created Sucessfully'
+    } else if (status === 400 || status === '400') {
+        div.classList.add("alert-danger")
+        div.innerHTML = `Can't create point of review. Please check your input and try again.`
+    } else if (status === 401) {
+        div.classList.add("alert-danger")
+        div.innerHTML = `Unauthorized`
+    } else {
+        div.classList.add("alert-danger")
+        div.innerHTML = `Something unexpected happen.`
+    }
+
+    let messageDiv = document.getElementById('message');
+    messageDiv.appendChild(div);
+
+    // Automatically remove alert-message
+    setTimeout(() => {
+        document.getElementById('alert-message').remove();
+    }, 5000)
+
 }
