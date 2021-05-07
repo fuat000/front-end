@@ -14,6 +14,15 @@
     margin-top: 10px;
 }
 
+#review-container {
+    height: 100px;
+    width: 200px;
+}
+
+#review-create {
+    margin-top: 10px;
+}
+
 .action-button {
     margin-left: 10px;
 }
