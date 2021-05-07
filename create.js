@@ -102,6 +102,6 @@ function initializeLatLong() {
 backBtn.addEventListener('click', () => redirectBack());
 
 function redirectBack() {
-    window.location = `../pages/index.html`;
+    window.location = `./index.html`;
 }
 
