@@ -15,14 +15,13 @@ loginBtn.addEventListener('click', () => {
 
     fetch('http://localhost:3000/auth/login', {
         method: 'POST',
-        credentials: 'include', // Don't forget to specify this if you need cookies
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({username, password})
     })
         .then(response => {
-            console.log();
+            console.log(response);
             status = response.status;
             return response.json();
         })
@@ -30,6 +29,7 @@ loginBtn.addEventListener('click', () => {
 
             console.log(response);
             // window.sessionStorage.setItem('session', response);
+            window.localStorage.setItem('user', response);
 
             // if (status === 200) window.location = `./index.html`;
 
