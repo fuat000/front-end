@@ -24,12 +24,9 @@ loginBtn.addEventListener('click', () => {
 
             console.log(response);
 
-            setCookie(response.name, response.sessionID, response.session.cookie.expires);
+            document.cookie = `${response.name}=${response.sessionID}; expires=${response.session.cookie.expires}; path=${response.session.cookie.path}; domain=${response.domain};`
 
-            // var x = getCookie('ppkcookie');
-
-            // window.sessionStorage.setItem('session', response);
-            window.localStorage.setItem('user', response);
+            window.localStorage.setItem('user', response.session.username);
 
             // if (status === 200) window.location = `./index.html`;
 
@@ -67,28 +64,4 @@ function createMessageDiv(success) {
         document.getElementById('alert-message').remove();
     }, 2000)
 
-}
-
-
-function setCookie(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-function eraseCookie(name) {   
-    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
