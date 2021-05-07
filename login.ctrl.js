@@ -1,11 +1,6 @@
 
 const loginBtn = document.querySelector('#login-btn');
 
-setCookie('ppkcookie','testcookie',7);
-
-var x = getCookie('ppkcookie');
-
-
 loginBtn.addEventListener('click', () => {
 
     const username = document.querySelector('#username-input').value;
@@ -28,6 +23,11 @@ loginBtn.addEventListener('click', () => {
         .then(response => {
 
             console.log(response);
+
+            setCookie(response.name, response.sessionID, response.session.cookie.expires);
+
+            // var x = getCookie('ppkcookie');
+
             // window.sessionStorage.setItem('session', response);
             window.localStorage.setItem('user', response);
 
